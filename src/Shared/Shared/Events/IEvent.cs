@@ -1,6 +1,5 @@
 namespace Shared.Events;
 
-public class IEvent
+public interface IEvent
 {
-    
 }

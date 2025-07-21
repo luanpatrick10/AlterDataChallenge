@@ -4,7 +4,7 @@ using Shared.Exceptions;
 
 namespace Shared.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : AggregateRoot, IUnitOfWorker
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> , IUnitOfWorker where TEntity : AggregateRoot
 {
     private readonly DbContext _dbContext;
     protected readonly DbSet<TEntity> _entityRepository;

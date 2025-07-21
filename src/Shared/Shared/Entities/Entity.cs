@@ -4,6 +4,7 @@ namespace Shared.Entities;
 
 public abstract class Entity(dynamic id)
 {
+    
     public Guid Id { get; private set; } = id;
     public IEnumerable<IEvent>? Events { get; set; }
     

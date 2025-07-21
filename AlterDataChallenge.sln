@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alterdata.Domain", "src\Alt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alterdata.Infra", "src\Alterdata.Infra\Alterdata.Infra.csproj", "{E056082B-5BD4-45E1-AC72-AA0F950DB870}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{23FA48D9-BB47-4284-B4EF-398DA288D9C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alterdata.RestAPI", "src\Alterdata.RestAPI\Alterdata.RestAPI.csproj", "{6FD324DF-8CDA-4307-9497-52520B5FBBA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{E056082B-5BD4-45E1-AC72-AA0F950DB870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E056082B-5BD4-45E1-AC72-AA0F950DB870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E056082B-5BD4-45E1-AC72-AA0F950DB870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FA48D9-BB47-4284-B4EF-398DA288D9C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FA48D9-BB47-4284-B4EF-398DA288D9C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FA48D9-BB47-4284-B4EF-398DA288D9C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FA48D9-BB47-4284-B4EF-398DA288D9C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FD324DF-8CDA-4307-9497-52520B5FBBA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD324DF-8CDA-4307-9497-52520B5FBBA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD324DF-8CDA-4307-9497-52520B5FBBA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD324DF-8CDA-4307-9497-52520B5FBBA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
