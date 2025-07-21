@@ -1,0 +1,54 @@
+﻿# Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.log
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Other files
+*.db
+*.mdb
+*.pdb
+*.cache
+*.config
+*.vspscc
+*.vssscc
+
+# Test results
+TestResults/
+*.trx
+
+# Auto-generated files
+Generated\ Files/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# DotCover
+*.dotCover
+
+# Rider logs
+.idea/
+.idea/*
+
+# Resharper
+*.DotSettings.user
+_ReSharper*/
