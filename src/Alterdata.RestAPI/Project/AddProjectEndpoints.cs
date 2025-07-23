@@ -1,4 +1,4 @@
-using Alterdata.Application.Features.Project.Commands.CreateProject;
+using Alterdata.Application.Features.ProjectFeature.Commands.CreateProject;
 using Shared.Mediator;
 
 namespace Alterdata.RestAPI.Project;

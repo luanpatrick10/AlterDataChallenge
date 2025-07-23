@@ -10,8 +10,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     protected readonly DbSet<TEntity> _entityRepository;
     public BaseRepository(DbContext dbContext)
     {
-        this._dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        this._entityRepository = this._dbContext.Set<TEntity>();
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _entityRepository = _dbContext.Set<TEntity>();
 
     }
     
@@ -44,6 +44,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task CommitTransactionAsync()
     {
         await _dbContext.SaveChangesAsync();
+        await _dbContext.Database.CommitTransactionAsync();
     }
 
     public async Task RollbackTransactionAsync()

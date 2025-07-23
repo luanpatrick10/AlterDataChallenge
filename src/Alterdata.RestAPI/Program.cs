@@ -3,10 +3,7 @@ using Alterdata.RestAPI.Project;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Alterdata.Infra.DI;
-using MediatR;
-using System.Reflection;
 using Shared.Mediator;
-using Alterdata.Application.Features.Project.Commands.CreateProject;
 
 var builder = WebApplication.CreateBuilder(args);
 

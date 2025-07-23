@@ -1,6 +1,5 @@
 using Shared.Entities;
 using Shared.Validations;
-using System.Collections.Generic;
 
 namespace Alterdata.Domain.Entities;
 

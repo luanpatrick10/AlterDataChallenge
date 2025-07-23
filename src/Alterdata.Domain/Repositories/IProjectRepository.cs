@@ -5,4 +5,5 @@ namespace Alterdata.Domain.Repositories;
 
 public interface IProjectRepository : IBaseRepository<Project>
 {
+    Task<bool> ExistsByNameAndDescriptionAsync(string name, string description);
 }
