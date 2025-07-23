@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Alterdata.RestAPI",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Alterdata.RestAPI/bin/Debug/net8.0/Alterdata.RestAPI.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Alterdata.RestAPI",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}
