@@ -1,20 +1,41 @@
 using Alterdata.Infra.Persistence;
 using Alterdata.RestAPI.Project;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
+using Alterdata.Infra.DI;
+using MediatR;
+using System.Reflection;
+using Shared.Mediator;
+using Alterdata.Application.Features.Project.Commands.CreateProject;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("AlterdataInMemoryDb"));
+if (builder.Environment.IsDevelopment())
+{
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "dev-database.db");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite($"Data Source={dbPath}"));
+}
+else
+{
+    var connection = new SqliteConnection("DataSource=:memory:");
+    connection.Open();
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite(connection));
+}
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterRepositories();
+builder.Services.AddApplicationServices();
+builder.Services.AddScoped<AppMediator>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();    
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();    
+    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 if (app.Environment.IsDevelopment())

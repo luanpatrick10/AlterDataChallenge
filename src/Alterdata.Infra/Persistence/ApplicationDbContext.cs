@@ -5,34 +5,22 @@ using Alterdata.Domain.Entities;
 
 namespace Alterdata.Infra.Persistence;
 
-
 public class ApplicationDbContext : DbContext
 {
-    private readonly string? _inMemoryDbName;
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
-    }
-
-    public ApplicationDbContext(string inMemoryDbName)
-    {
-        _inMemoryDbName = inMemoryDbName;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured && !string.IsNullOrEmpty(_inMemoryDbName))
-        {
-            optionsBuilder.UseInMemoryDatabase(_inMemoryDbName);
-        }
-        base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<Event>();
         modelBuilder.Ignore<IEnumerable<IEvent>>();        
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(ApplicationDbContext))!);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);        
         base.OnModelCreating(modelBuilder);
     }
+
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<Alterdata.Domain.Entities.Task> Tasks { get; set; }
+    public DbSet<TaskComment> TaskComments { get; set; }
+    public DbSet<TaskSpentTime> TaskSpentTimes { get; set; }
 }
