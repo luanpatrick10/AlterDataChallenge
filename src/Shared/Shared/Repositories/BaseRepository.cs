@@ -4,7 +4,7 @@ using Shared.Exceptions;
 
 namespace Shared.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> , IUnitOfWorker where TEntity : AggregateRoot
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : AggregateRoot
 {
     private readonly DbContext _dbContext;
     protected readonly DbSet<TEntity> _entityRepository;
@@ -28,6 +28,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> , IUnitOfWorker 
     public Task<bool> ExistsAsync(Guid id)
     {
         return _entityRepository.AnyAsync(e => e.Id.Equals(id));
+    }
+
+    public async Task AddAsync(TEntity entity)
+    {
+        await _entityRepository.AddAsync(entity);
     }
 
     public async Task BeginTransactionAsync()

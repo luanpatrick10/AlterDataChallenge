@@ -6,4 +6,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Project\Commands\ChangeTaskStatus\" />
+      <Folder Include="Features\Project\Commands\CreateTaskComment\" />
+      <Folder Include="Features\Project\Commands\CreateTasks\" />
+      <Folder Include="Features\Project\Queries\GetProjectDetails\" />
+      <Folder Include="Features\Project\Queries\GetTasksDetails\" />
+      <Folder Include="Features\Task\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Alterdata.Infra\Alterdata.Infra.csproj" />
+    </ItemGroup>
+
 </Project>
