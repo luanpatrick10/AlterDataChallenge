@@ -7,11 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Alterdata.Domain\Alterdata.Domain.csproj" />
       <ProjectReference Include="..\Shared\Shared\Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories\" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.18" />
     </ItemGroup>
 
 </Project>
