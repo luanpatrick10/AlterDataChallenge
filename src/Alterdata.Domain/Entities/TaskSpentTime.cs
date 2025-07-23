@@ -12,6 +12,10 @@ public class TaskSpentTime : Entity
         FinishedAt = finishedAt;
         Validate();
     }
+    
+    public TaskSpentTime() : base(Guid.NewGuid())
+    {
+    }
 
     public DateTime StartedAt { get; private set; }
     public DateTime FinishedAt { get; private set; }

@@ -1,11 +1,12 @@
 using Shared.Entities;
 using Shared.Validations;
+using System.Collections.Generic;
 
 namespace Alterdata.Domain.Entities;
 
 public class Project : AggregateRoot
 {
-    public Project(string name,string description): base(Guid.NewGuid()) 
+    public Project(string name, string description) : base(Guid.NewGuid())
     {
         Name = name;
         Description = description;
@@ -14,6 +15,7 @@ public class Project : AggregateRoot
 
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public ICollection<Task> Tasks { get; set; }
 
     public void Update(string name, string description)
     {
@@ -32,7 +34,7 @@ public class Project : AggregateRoot
     {
         Validations.IsNotNullOrEmpty(Name);
     }
-    
+
     private void ValidateDescription()
     {
         Validations.IsNotNullOrEmpty(Description);
