@@ -32,6 +32,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task AddAsync(TEntity entity)
     {
+        entity.Validate();
         await _entityRepository.AddAsync(entity);
     }
 
