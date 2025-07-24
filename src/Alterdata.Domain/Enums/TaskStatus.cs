@@ -1,4 +1,4 @@
-namespace Alterdata.Domain.Enum;
+namespace Alterdata.Domain.Enums;
 
 public enum TaskStatus
 {

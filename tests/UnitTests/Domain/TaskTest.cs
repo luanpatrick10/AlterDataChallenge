@@ -1,10 +1,10 @@
 using System;
 using Alterdata.Domain.Entities;
-using Alterdata.Domain.Enum;
+using Alterdata.Domain.Enums;
 using Shared.Exceptions;
 using NUnit.Framework;
 using Task = Alterdata.Domain.Entities.Task;
-using TaskStatus = Alterdata.Domain.Enum.TaskStatus;
+using TaskStatus = Alterdata.Domain.Enums.TaskStatus;
 
 namespace UnitTests.Domain;
 

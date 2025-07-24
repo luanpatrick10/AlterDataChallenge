@@ -1,19 +1,22 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Shared.Entities;
 using Shared.Exceptions;
 using Shared.Validations;
-using TaskStatus = Alterdata.Domain.Enum.TaskStatus;
+using TaskStatus = Alterdata.Domain.Enums.TaskStatus;
 
 namespace Alterdata.Domain.Entities;
 
 public class Task : Entity
 {
-    public Task(string title,string description,DateTime dueDate, Guid projectId) : base(Guid.NewGuid())
+    public Task(string title, string description, DateTime dueDate, Guid projectId) : base(Guid.NewGuid())
     {
         Title = title;
         Description = description;
         DueDate = dueDate;
         ProjectId = projectId;
-        SetStatusPendente();
+        SetStatus(TaskStatus.Pendente);
+        TasksComment = new List<TaskComment>();
+        SpentTimes = new List<TaskSpentTime>();
         Validate();
     }
     
@@ -60,18 +63,11 @@ public class Task : Entity
         Validations.DateIsNotNull(DueDate);
     }
     
-    public void SetStatusEmAndamento()
+    public void SetStatus(TaskStatus status)
     {
-        Status = TaskStatus.EmAndamento;
-    }
-
-    public void SetStatusConcluido()
-    {
-        Status = TaskStatus.Concluído;
-    }
-    public void SetStatusPendente()
-    {
-        Status = TaskStatus.Pendente;
+        if(!Enum.IsDefined(typeof(TaskStatus), status))
+            throw new DomainException("Invalid task status");
+        Status = status;
     }
     private void ValidateTIfAfterDueDate()
     {

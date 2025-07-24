@@ -31,4 +31,11 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
         await SaveChangesAsync();
         return task.Id;
     }
+    public async Task<Domain.Entities.Task?> GetTaskDetailsByIdAsync(Guid taskId)
+    {
+        return await _taskRepository
+            .Include(t => t.TasksComment)
+            .Include(t => t.SpentTimes)
+            .FirstOrDefaultAsync(t => t.Id == taskId);
+    }
 }

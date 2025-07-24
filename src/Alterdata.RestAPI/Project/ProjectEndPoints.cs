@@ -1,7 +1,9 @@
 using Alterdata.Application.Features.ProjectFeature.Commands.CreateProject;
 using Alterdata.Application.Features.ProjectFeature.Commands.AddTask;
+using Alterdata.Application.Features.ProjectFeature.Commands;
 using Alterdata.Application.Features.ProjectFeature.Queries.GetProject;
 using Shared.Mediator;
+using Alterdata.Application.Features.ProjectFeature.Queries;
 
 namespace Alterdata.RestAPI.Project;
 
@@ -22,13 +24,27 @@ public static class ProjectEndpoints
             var id = await mediator.Send(command);
             return Results.Created($"/api/projects/{projectId}/tasks/{id}", id);
         });
+
+        app.MapPut("/api/tasks/{taskId}/status", async (Guid taskId, ChangeTaskStatusCommand command, AppMediator mediator) =>
+        {
+            command.TaskId = taskId;
+            var result = await mediator.Send<bool>(command);
+            return result ? Results.Ok() : Results.NotFound();
+        });
     }
 
     public static void AddGetProjectEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/projects/{id}", async (Guid id, AppMediator mediator) =>
         {
-            var result = await mediator.Send<GetProjectDto>(new GetProjectQuery(id));
+            var result = await mediator.Send(new GetProjectQuery(id));
+            return result is not null ? Results.Ok(result) : Results.NotFound();
+        });
+
+        app.MapGet("/api/tasks/{taskId}", async (Guid taskId, AppMediator mediator) =>
+        {
+            var result = await mediator.Send(
+                new GetTaskDetailsQuery(taskId));
             return result is not null ? Results.Ok(result) : Results.NotFound();
         });
     }
