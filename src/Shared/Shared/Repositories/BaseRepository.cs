@@ -20,6 +20,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await _entityRepository.FindAsync(id) ?? throw new  NotFoundException();
     }
 
+    public TEntity GetById(Guid id)
+    {
+        return _entityRepository.Find(id) ?? throw new  NotFoundException();
+    }
+
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await _entityRepository.ToListAsync();
@@ -34,6 +39,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         entity.Validate();
         await _entityRepository.AddAsync(entity);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task BeginTransactionAsync()

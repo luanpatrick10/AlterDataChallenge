@@ -14,7 +14,7 @@ public class TaskSpentTimeConfiguration : IEntityTypeConfiguration<TaskSpentTime
         builder.Property(tst => tst.StartedAt).IsRequired();
         builder.Property(tst => tst.FinishedAt).IsRequired();
 
-        builder.HasOne<AlterDataTask>()
+        builder.HasOne(x => x.Task)
             .WithMany(t => t.SpentTimes)
             .HasForeignKey(tst => tst.TaskId)
             .OnDelete(DeleteBehavior.Cascade);

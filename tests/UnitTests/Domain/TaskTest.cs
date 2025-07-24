@@ -14,7 +14,7 @@ public class TaskTest
     [Test]
     public void Constructor_ShouldInitializeProperties()
     {
-        var task = new Task("Title", "Description", DateTime.Now.AddDays(1));
+        var task = new Task("Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid());
         Assert.Multiple(() =>
         {
             Assert.That(task.Title, Is.EqualTo("Title"));
@@ -26,19 +26,19 @@ public class TaskTest
     [Test]
     public void Validate_ShouldThrowException_WhenTitleIsEmpty()
     {
-        Assert.Throws<DomainException>(() => new Task("", "Description", DateTime.Now.AddDays(1)));
+        Assert.Throws<DomainException>(() => new Task("", "Description", DateTime.Now.AddDays(1), Guid.NewGuid()));
     }
 
     [Test]
     public void Validate_ShouldNotThrowException_WhenTitleIsValid()
     {
-        Assert.DoesNotThrow(() => new Task("Valid Title", "Description", DateTime.Now.AddDays(1)));
+        Assert.DoesNotThrow(() => new Task("Valid Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid()));
     }
 
     [Test]
     public void AddTaskComment_ShouldAddComment_WhenValid()
     {
-        var task = new Task("Title", "Description", DateTime.Now.AddDays(1));
+        var task = new Task("Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid());
         var comment = new TaskComment("Comment");
         task.AddTaskComment(comment);
         CollectionAssert.Contains(task.TasksComment, comment);
@@ -47,7 +47,7 @@ public class TaskTest
     [Test]
     public void AddTaskComment_ShouldThrowException_WhenDueDateIsPast()
     {
-        var task = new Task("Title", "Description", DateTime.Now.AddDays(-1));
+        var task = new Task("Title", "Description", DateTime.Now.AddDays(-1), Guid.NewGuid());
         var comment = new TaskComment("Comment");
         Assert.Throws<DomainException>(() => task.AddTaskComment(comment));
     }
@@ -55,7 +55,7 @@ public class TaskTest
     [Test]
     public void AddTaskComment_ShouldWork_WhenDueDateIsValid()
     {
-        var task = new Task("Title", "Description", DateTime.Now.AddDays(1));
+        var task = new Task("Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid());
         var comment = new TaskComment("Comment");
         Assert.DoesNotThrow(() => task.AddTaskComment(comment));
         CollectionAssert.Contains(task.TasksComment, comment);

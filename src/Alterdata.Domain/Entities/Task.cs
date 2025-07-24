@@ -7,12 +7,12 @@ namespace Alterdata.Domain.Entities;
 
 public class Task : Entity
 {
-    
-    public Task(string title,string description,DateTime dueDate) : base(Guid.NewGuid())
+    public Task(string title,string description,DateTime dueDate, Guid projectId) : base(Guid.NewGuid())
     {
         Title = title;
         Description = description;
         DueDate = dueDate;
+        ProjectId = projectId;
         SetStatusPendente();
         Validate();
     }

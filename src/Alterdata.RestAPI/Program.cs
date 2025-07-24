@@ -42,4 +42,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.AddProjectEndpoints();
+app.AddGetProjectEndpoints();
 app.Run();

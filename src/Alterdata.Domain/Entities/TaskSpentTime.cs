@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using Shared.Entities;
 using Shared.Validations;
 
@@ -20,6 +19,7 @@ public class TaskSpentTime : Entity
     public DateTime StartedAt { get; private set; }
     public DateTime FinishedAt { get; private set; }
     public Guid TaskId { get; private set; }
+    public Task Task { get; set; }
     public sealed override void Validate()
     {
     }

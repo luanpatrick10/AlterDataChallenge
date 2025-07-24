@@ -17,7 +17,7 @@ public class TaskConfiguration : IEntityTypeConfiguration<AlterDataTask>
         builder.Property(t => t.Status).IsRequired();
 
         builder.HasOne(t => t.Project)
-            .WithMany()
+            .WithMany(x => x.Tasks)
             .HasForeignKey(t => t.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -27,7 +27,7 @@ public class TaskConfiguration : IEntityTypeConfiguration<AlterDataTask>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(t => t.SpentTimes)
-            .WithOne()
+            .WithOne(x => x.Task)
             .HasForeignKey(st => st.TaskId)
             .OnDelete(DeleteBehavior.Cascade);
     }

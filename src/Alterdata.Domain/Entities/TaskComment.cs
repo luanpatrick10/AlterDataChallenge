@@ -1,5 +1,4 @@
 using Shared.Entities;
-using AlterDataTask = Alterdata.Domain.Entities.Task;
 
 namespace Alterdata.Domain.Entities;
 
@@ -17,8 +16,8 @@ public class TaskComment : Entity
     public DateTime? UpdateAt { get; set; }
     
     //Ef Relations
-    public AlterDataTask Task { get;}
-    public Guid TaskId { get;}
+    public Task Task { get; }
+    public Guid TaskId { get; }
 
     public sealed override void Validate()
     {
