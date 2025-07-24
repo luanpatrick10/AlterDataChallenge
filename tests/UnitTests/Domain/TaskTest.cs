@@ -39,7 +39,7 @@ public class TaskTest
     public void AddTaskComment_ShouldAddComment_WhenValid()
     {
         var task = new Task("Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid());
-        var comment = new TaskComment("Comment");
+        var comment = new TaskComment("Comment", Guid.NewGuid());
         task.AddTaskComment(comment);
         CollectionAssert.Contains(task.TasksComment, comment);
     }
@@ -48,7 +48,7 @@ public class TaskTest
     public void AddTaskComment_ShouldThrowException_WhenDueDateIsPast()
     {
         var task = new Task("Title", "Description", DateTime.Now.AddDays(-1), Guid.NewGuid());
-        var comment = new TaskComment("Comment");
+        var comment = new TaskComment("Comment", Guid.NewGuid());
         Assert.Throws<DomainException>(() => task.AddTaskComment(comment));
     }
 
@@ -56,7 +56,7 @@ public class TaskTest
     public void AddTaskComment_ShouldWork_WhenDueDateIsValid()
     {
         var task = new Task("Title", "Description", DateTime.Now.AddDays(1), Guid.NewGuid());
-        var comment = new TaskComment("Comment");
+        var comment = new TaskComment("Comment", Guid.NewGuid());
         Assert.DoesNotThrow(() => task.AddTaskComment(comment));
         CollectionAssert.Contains(task.TasksComment, comment);
     }

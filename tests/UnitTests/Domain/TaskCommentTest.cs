@@ -10,7 +10,7 @@ public class TaskCommentTest
     [Test]
     public void Constructor_ShouldInitializeProperties()
     {
-        var comment = new TaskComment("Test comment");
+        var comment = new TaskComment("Test comment",Guid.NewGuid());
         Assert.AreEqual("Test comment", comment.Text);
         Assert.LessOrEqual(comment.CreateAt, DateTime.Now);
         Assert.IsNull(comment.UpdateAt);
@@ -19,7 +19,7 @@ public class TaskCommentTest
     [Test]
     public void Validate_ShouldNotThrowException_WhenValid()
     {
-        var comment = new TaskComment("Valid comment");
+        var comment = new TaskComment("Valid comment", Guid.NewGuid());
         Assert.DoesNotThrow(() => comment.Validate());
     }
 }

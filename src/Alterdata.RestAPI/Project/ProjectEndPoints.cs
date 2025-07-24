@@ -1,5 +1,6 @@
 using Alterdata.Application.Features.ProjectFeature.Commands.CreateProject;
 using Alterdata.Application.Features.ProjectFeature.Commands.AddTask;
+using Alterdata.Application.Features.ProjectFeature.Commands.CreateTaskComment;
 using Alterdata.Application.Features.ProjectFeature.Commands;
 using Alterdata.Application.Features.ProjectFeature.Queries.GetProject;
 using Shared.Mediator;
@@ -30,6 +31,13 @@ public static class ProjectEndpoints
             command.TaskId = taskId;
             var result = await mediator.Send<bool>(command);
             return result ? Results.Ok() : Results.NotFound();
+        });
+        
+        app.MapPost("/api/tasks/{taskId}/comments", async (Guid taskId, CreateTaskCommentCommand command, AppMediator mediator) =>
+        {            
+            command.SetTaskId(taskId);
+            var id = await mediator.Send(command);
+            return Results.Created($"/api/tasks/{taskId}/comments/{id}", id);
         });
     }
 

@@ -8,9 +8,11 @@ namespace Alterdata.Infra.Persistence.Repositories;
 public class ProjectRepository : BaseRepository<Project>, IProjectRepository
 {
     private readonly DbSet<Domain.Entities.Task> _taskRepository;
+    private readonly ApplicationDbContext _applicationDbContext;
     public ProjectRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
         _taskRepository = dbContext.Set<Domain.Entities.Task>();
+        _applicationDbContext = dbContext;
     }
 
     public async Task<bool> ExistsByNameAndDescriptionAsync(string name, string description)
@@ -37,5 +39,12 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
             .Include(t => t.TasksComment)
             .Include(t => t.SpentTimes)
             .FirstOrDefaultAsync(t => t.Id == taskId);
+    }
+
+    public async Task<Guid> AddTaskCommentAsync(TaskComment comment)
+    {
+        await _applicationDbContext.Set<TaskComment>().AddAsync(comment);
+        await _applicationDbContext.SaveChangesAsync();
+        return comment.Id;
     }
 }

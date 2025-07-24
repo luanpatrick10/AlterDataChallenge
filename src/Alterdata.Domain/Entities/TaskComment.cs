@@ -4,10 +4,11 @@ namespace Alterdata.Domain.Entities;
 
 public class TaskComment : Entity
 {
-    public TaskComment(string text) : base(Guid.NewGuid())
+    public TaskComment(string text, Guid taskId) : base(Guid.NewGuid())
     {
         Text = text;
         CreateAt = DateTime.Now;
+        TaskId = taskId;
         Validate();
     }
 
