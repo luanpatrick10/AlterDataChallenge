@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Alterdata.Infra.DI;
 using Shared.Mediator;
+using Alterdata.RestAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ using (var scope = app.Services.CreateScope())
     db.Database.EnsureCreated();
     db.Database.Migrate();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

@@ -1,6 +1,7 @@
 using System;
 using Alterdata.Domain.Entities;
 using NUnit.Framework;
+using Shared.Exceptions;
 
 namespace UnitTests.Domain;
 
@@ -24,10 +25,8 @@ public class TaskSpentTimeTest
     public void ValidateSpentTime_ShouldThrowException_WhenFinishedBeforeStarted()
     {
         var started = DateTime.Now;
-        var finished = started.AddMinutes(-10);
-        var spentTime = new TaskSpentTime(started, finished, Guid.NewGuid());
-        spentTime.SetSpentTime(started, finished, TimeSpan.FromMinutes(10));
-        Assert.Throws<ArgumentException>(() => spentTime.ValidateSpendTimeLimit());
+        var finished = started.AddMinutes(-10);        
+        Assert.Throws<DomainException>(() => new TaskSpentTime(started, finished, Guid.NewGuid()));
     }
 
     [Test]
