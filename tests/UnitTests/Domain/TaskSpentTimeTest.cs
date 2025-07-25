@@ -12,9 +12,12 @@ public class TaskSpentTimeTest
     {
         var started = DateTime.Now;
         var finished = started.AddHours(1);
-        var spentTime = new TaskSpentTime(started, finished);
-        Assert.AreEqual(started, spentTime.StartedAt);
-        Assert.AreEqual(finished, spentTime.FinishedAt);
+        var spentTime = new TaskSpentTime(started, finished, Guid.NewGuid());
+        Assert.Multiple(() =>
+        {
+            Assert.That(spentTime.StartedAt, Is.EqualTo(started));
+            Assert.That(spentTime.FinishedAt, Is.EqualTo(finished));
+        });
     }
 
     [Test]
@@ -22,9 +25,9 @@ public class TaskSpentTimeTest
     {
         var started = DateTime.Now;
         var finished = started.AddMinutes(-10);
-        var spentTime = new TaskSpentTime(started, started.AddMinutes(1));
+        var spentTime = new TaskSpentTime(started, finished, Guid.NewGuid());
         spentTime.SetSpentTime(started, finished, TimeSpan.FromMinutes(10));
-        Assert.Throws<ArgumentException>(() => spentTime.ValidateSpentTime());
+        Assert.Throws<ArgumentException>(() => spentTime.ValidateSpendTimeLimit());
     }
 
     [Test]
@@ -32,11 +35,14 @@ public class TaskSpentTimeTest
     {
         var started = DateTime.Now;
         var finished = started.AddHours(2);
-        var spentTime = new TaskSpentTime(started, finished);
+        var spentTime = new TaskSpentTime(started, finished , Guid.NewGuid());
         var newStarted = started.AddMinutes(10);
         var newFinished = newStarted.AddHours(1);
         spentTime.SetSpentTime(newStarted, newFinished, TimeSpan.FromHours(1));
-        Assert.AreEqual(newStarted, spentTime.StartedAt);
-        Assert.AreEqual(newFinished, spentTime.FinishedAt);
+        Assert.Multiple(() =>
+        {
+            Assert.That(spentTime.StartedAt, Is.EqualTo(newStarted));
+            Assert.That(spentTime.FinishedAt, Is.EqualTo(newFinished));
+        });
     }
 }

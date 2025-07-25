@@ -3,15 +3,20 @@ using Alterdata.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Shared.Repositories;
 
+
 namespace Alterdata.Infra.Persistence.Repositories;
 
 public class ProjectRepository : BaseRepository<Project>, IProjectRepository
 {
     private readonly DbSet<Domain.Entities.Task> _taskRepository;
+    private readonly DbSet<TaskComment> _taskCommentRepository;
+    private readonly DbSet<TaskSpentTime> _taskSpentTimeRepository;
     private readonly ApplicationDbContext _applicationDbContext;
     public ProjectRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
         _taskRepository = dbContext.Set<Domain.Entities.Task>();
+        _taskCommentRepository = dbContext.Set<TaskComment>();
+        _taskSpentTimeRepository = dbContext.Set<TaskSpentTime>();
         _applicationDbContext = dbContext;
     }
 
@@ -43,8 +48,14 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
 
     public async Task<Guid> AddTaskCommentAsync(TaskComment comment)
     {
-        await _applicationDbContext.Set<TaskComment>().AddAsync(comment);
+        await _taskCommentRepository.AddAsync(comment);
         await _applicationDbContext.SaveChangesAsync();
         return comment.Id;
+    }
+    public async Task<Guid> AddTaskSpentTimeAsync(TaskSpentTime spentTime)
+    {
+        await _taskSpentTimeRepository.AddAsync(spentTime);
+        await _applicationDbContext.SaveChangesAsync();
+        return spentTime.Id;
     }
 }

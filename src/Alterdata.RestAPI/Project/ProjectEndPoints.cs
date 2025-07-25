@@ -1,6 +1,7 @@
 using Alterdata.Application.Features.ProjectFeature.Commands.CreateProject;
 using Alterdata.Application.Features.ProjectFeature.Commands.AddTask;
 using Alterdata.Application.Features.ProjectFeature.Commands.CreateTaskComment;
+using Alterdata.Application.Features.ProjectFeature.Commands.RegisterTaskSpendTime;
 using Alterdata.Application.Features.ProjectFeature.Commands;
 using Alterdata.Application.Features.ProjectFeature.Queries.GetProject;
 using Shared.Mediator;
@@ -38,6 +39,13 @@ public static class ProjectEndpoints
             command.SetTaskId(taskId);
             var id = await mediator.Send(command);
             return Results.Created($"/api/tasks/{taskId}/comments/{id}", id);
+        });
+
+        app.MapPost("/api/tasks/{taskId}/spent-time", async (Guid taskId, RegisterTaskSpendTimeCommand command, AppMediator mediator) =>
+        {
+            command.SetTaskId(taskId);
+            var id = await mediator.Send(command);
+            return Results.Created($"/api/tasks/{taskId}/spent-time/{id}", id);
         });
     }
 
