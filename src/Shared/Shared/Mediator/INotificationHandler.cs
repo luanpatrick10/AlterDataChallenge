@@ -1,6 +1,7 @@
+using INotificationHandlerMediator = MediatR.INotificationHandler<Shared.Mediator.INotification>;
+
 namespace Shared.Mediator;
 
-public interface INotificationHandler<TNotification> where TNotification : INotification
-{
-    Task Handle(TNotification notification, CancellationToken cancellationToken = default);
+public interface INotificationHandler : INotificationHandlerMediator 
+{    
 }

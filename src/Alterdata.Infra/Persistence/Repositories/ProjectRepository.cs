@@ -1,6 +1,7 @@
 using Alterdata.Domain.Entities;
 using Alterdata.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Shared.Mediator;
 using Shared.Repositories;
 
 
@@ -12,7 +13,7 @@ public class ProjectRepository : BaseRepository<Project>, IProjectRepository
     private readonly DbSet<TaskComment> _taskCommentRepository;
     private readonly DbSet<TaskSpentTime> _taskSpentTimeRepository;
     private readonly ApplicationDbContext _applicationDbContext;
-    public ProjectRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public ProjectRepository(ApplicationDbContext dbContext, AppMediator appMediator) : base(dbContext, appMediator)
     {
         _taskRepository = dbContext.Set<Domain.Entities.Task>();
         _taskCommentRepository = dbContext.Set<TaskComment>();

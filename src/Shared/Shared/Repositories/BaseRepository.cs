@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
 using Shared.Exceptions;
+using Shared.Mediator;
 
 namespace Shared.Repositories;
 
@@ -8,11 +9,12 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 {
     private readonly DbContext _dbContext;
     protected readonly DbSet<TEntity> _entityRepository;
-    public BaseRepository(DbContext dbContext)
+    private readonly AppMediator _appMediator;
+    public BaseRepository(DbContext dbContext,AppMediator appMediator)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _entityRepository = _dbContext.Set<TEntity>();
-
+        _appMediator = appMediator ?? throw new ArgumentNullException(nameof(appMediator));
     }
     
     public async Task<TEntity> GetByIdAsync(Guid id)
@@ -41,9 +43,10 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         await _entityRepository.AddAsync(entity);
     }
 
-    public async Task SaveChangesAsync()
-    {
+    public async Task SaveChangesAsync(TEntity? entity = null)
+    {        
         await _dbContext.SaveChangesAsync();
+        await PublishEntityEvents(entity).ConfigureAwait(false);
     }
 
     public async Task BeginTransactionAsync()
@@ -51,14 +54,27 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         await _dbContext.Database.BeginTransactionAsync();
     }
 
-    public async Task CommitTransactionAsync()
+    public async Task CommitTransactionAsync(TEntity? entity = null)
     {
         await _dbContext.SaveChangesAsync();
         await _dbContext.Database.CommitTransactionAsync();
+        await PublishEntityEvents(entity).ConfigureAwait(false);
     }
 
     public async Task RollbackTransactionAsync()
     {
         await _dbContext.Database.RollbackTransactionAsync();
+    }    
+
+    private async Task PublishEntityEvents(TEntity? entity)
+    {
+        if (entity is { Events: not null } && entity.Events.Any())
+        {
+            foreach (var @event in entity.Events)
+            {
+                await _appMediator.Publish(@event, CancellationToken.None).ConfigureAwait(false);
+            }
+            entity.ClearEvents();
+        }
     }
 }

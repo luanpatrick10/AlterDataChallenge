@@ -9,6 +9,7 @@ public class Project : AggregateRoot
     {
         Name = name;
         Description = description;
+        AddEvent(new Events.ProjectCreatedEvent(Id, name));
         Validate();
     }
 

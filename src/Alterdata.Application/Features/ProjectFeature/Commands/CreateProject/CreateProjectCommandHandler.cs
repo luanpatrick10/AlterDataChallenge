@@ -25,7 +25,7 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         {
             await _projectRepository.BeginTransactionAsync();
             await _projectRepository.AddAsync(project);
-            await _projectRepository.CommitTransactionAsync();
+            await _projectRepository.CommitTransactionAsync(project);
         }
         catch (Exception)
         {

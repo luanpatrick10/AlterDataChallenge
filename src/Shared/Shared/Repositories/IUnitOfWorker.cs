@@ -1,9 +1,11 @@
+using Shared.Entities;
+
 namespace Shared.Repositories;
 
-public interface IUnitOfWorker
+public interface IUnitOfWorker<TEntity> where TEntity : AggregateRoot
 {
     Task BeginTransactionAsync();
-    Task CommitTransactionAsync();
+    Task CommitTransactionAsync(TEntity? entity = null);
     Task RollbackTransactionAsync();
-    Task SaveChangesAsync();
+    Task SaveChangesAsync(TEntity? entity = null);
 }

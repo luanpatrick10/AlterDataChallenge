@@ -1,8 +1,9 @@
 using MediatR;
+using INotificationApp = MediatR.INotification;
 
 namespace Shared.Mediator;
 
-public class AppMediator
+public sealed class AppMediator
 {
     private readonly IMediator _mediator;
 
@@ -16,8 +17,8 @@ public class AppMediator
         return await _mediator.Send((object)request, cancellationToken) is TResult result ? result : default!;
     }
 
-    public async Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default) where TNotification : INotification
+    public async Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default) where TNotification : INotificationApp
     {
-        await _mediator.Publish((object)notification, cancellationToken);
+        await _mediator.Publish(notification, cancellationToken);
     }
 }
