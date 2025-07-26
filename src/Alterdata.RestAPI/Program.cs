@@ -9,6 +9,13 @@ using Alterdata.RestAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var tokens = new Dictionary<string, string>
+{
+    { "Manager", "Manager" },
+    { "Member", "Member" }
+};
+builder.Services.AddSingleton(tokens);
+
 if (builder.Environment.IsDevelopment())
 {
     var dbPath = Path.Combine(AppContext.BaseDirectory, "dev-database.db");
@@ -24,7 +31,10 @@ else
 }
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    SwaggerTokenConfig.AddTokenHeader(options);
+});
 builder.Services.RegisterRepositories();
 builder.Services.AddApplicationServices();
 builder.Services.AddScoped<AppMediator>();
@@ -38,13 +48,17 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<SimpleAuthMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+        c.ConfigObject.AdditionalItems["persistAuthorization"] = true;
+    });
 }
 
 app.AddProjectEndpoints();
-app.AddGetProjectEndpoints();
 app.Run();

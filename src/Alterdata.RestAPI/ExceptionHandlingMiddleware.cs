@@ -32,6 +32,7 @@ namespace Alterdata.RestAPI
                 DomainException => HttpStatusCode.BadRequest,
                 NotFoundException => HttpStatusCode.NotFound,
                 BusinessRuleException => HttpStatusCode.UnprocessableEntity,
+                UnauthorizedAccessException => HttpStatusCode.Unauthorized,
                 _ => HttpStatusCode.InternalServerError
             };
 
