@@ -1,9 +1,5 @@
-using Alterdata.Domain.Entities;
 using Alterdata.Domain.Repositories;
-using MediatR;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Shared.Mediator;
 
 namespace Alterdata.Application.Features.ProjectFeature.Queries
 {
@@ -18,7 +14,22 @@ namespace Alterdata.Application.Features.ProjectFeature.Queries
         public async Task<TaskDetailsDto> Handle(GetTaskDetailsQuery request, CancellationToken cancellationToken)
         {
             var task = await _projectRepository.GetTaskDetailsByIdAsync(request.TaskId);
-            if (task == null) return null;
+            if (task == null)
+                return null;
+
+            var comments = task.TasksComment?.Select(tc => new TaskCommentDto
+            {
+                Id = tc.Id,
+                Comment = tc.Text,
+                CreatedAt = tc.CreateAt
+            }).ToList() ?? new List<TaskCommentDto>();
+
+            var spentTimes = task.SpentTimes?.Select(st => new TaskSpentTimeDto
+            {
+                Id = st.Id,
+                Hours = (st.FinishedAt - st.StartedAt).TotalHours,
+                Date = st.StartedAt
+            }).ToList() ?? new List<TaskSpentTimeDto>();
 
             return new TaskDetailsDto
             {
@@ -28,18 +39,8 @@ namespace Alterdata.Application.Features.ProjectFeature.Queries
                 DueDate = task.DueDate,
                 ProjectId = task.ProjectId,
                 Status = task.Status.ToString(),
-                TasksComment = task.TasksComment?.Select(tc => new TaskCommentDto
-                {
-                    Id = tc.Id,
-                    Comment = tc.Text,
-                    CreatedAt = tc.CreateAt
-                }).ToList(),
-                SpentTimes = task.SpentTimes?.Select(st => new TaskSpentTimeDto
-                {
-                    Id = st.Id,
-                    Hours = (st.FinishedAt - st.StartedAt).TotalHours,
-                    Date = st.StartedAt
-                }).ToList()
+                TasksComment = comments,
+                SpentTimes = spentTimes
             };
         }
     }

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Shared.Entities;
 using Shared.Exceptions;
 using Shared.Validations;

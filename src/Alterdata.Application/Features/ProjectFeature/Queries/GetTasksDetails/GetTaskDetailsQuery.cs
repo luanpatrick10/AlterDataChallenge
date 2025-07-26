@@ -1,7 +1,3 @@
-using MediatR;
-using System;
-using System.Collections.Generic;
-
 namespace Alterdata.Application.Features.ProjectFeature.Queries
 {
     public class GetTaskDetailsQuery : Shared.Mediator.IRequest<TaskDetailsDto>
